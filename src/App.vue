@@ -1,57 +1,76 @@
 <template>
   <div class="container">
-    <Header title="Task Tracer" />
-    <Tasks @delete-task="deleteTask" :tasks="tasks" />
+    <Header   @toggle-add-task="toggleAddTask" title="Task Tracer" />
+    <div v-if="showAddTask">
+          <AddTask  @add-task="addTask"/>
+    </div>
+
+    <Tasks
+      @toggle-reminder="toggleReminder"
+      @delete-task="deleteTask"
+      :tasks="tasks"
+    />
   </div>
 </template>
 
 <script>
-import Header from './components/Header'
-import Tasks from './components/Tasks'
+import Header from "./components/Header";
+import Tasks from "./components/Tasks";
+import AddTask from "./components/AddTask";
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
-    Tasks
+    Tasks,
+    AddTask,
   },
   data() {
     return {
       tasks: [],
-    }
+      showAddTask:false
+    };
   },
   methods: {
+     toggleAddTask() {
+      this.showAddTask = !this.showAddTask
+    },
+    addTask(task){
+      this.tasks = [...this.tasks, task]
+    },
     deleteTask(id) {
-      if(confirm('Are You Sure')){
- this.tasks = this.tasks.filter((task) => task.id !== id)
+      if (confirm("Are You Sure")) {
+        this.tasks = this.tasks.filter((task) => task.id !== id);
       }
-     
-      
     },
+    toggleReminder(id) {
+      this.tasks = this.tasks.map((task) =>
+        task.id === id ? { ...task, reminder: !task.reminder } : task
+      )
     },
+  },
   created() {
     this.tasks = [
       {
         id: 1,
-        text: 'Feed cats',
-        day: 'March 15 at 6 pm',
+        text: "Feed cats",
+        day: "March 15 at 6 pm",
         reminder: true,
       },
       {
         id: 2,
-        text: 'Get job',
-        day: 'March 20  ',
+        text: "Get job",
+        day: "March 20  ",
         reminder: true,
       },
       {
         id: 3,
-        text: 'learn C++',
-        day: 'March 16  9pm ',
+        text: "learn C++",
+        day: "March 16  9pm ",
         reminder: false,
       },
-    ]
- },
- 
-}
+    ];
+  },
+};
 </script>
 
 <style>

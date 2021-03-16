@@ -17,6 +17,6 @@ export default {
   components:{
       Task
   },
-  emits:['delete-task']
+  emits:['delete-task','toggle-reminder']
 }
 </script>
