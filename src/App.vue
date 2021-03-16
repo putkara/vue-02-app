@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <Header title="Task Tracer" />
-    <Tasks :tasks="tasks"/>
+    <Tasks @delete-task="deleteTask" :tasks="tasks" />
   </div>
 </template>
 
@@ -19,6 +19,15 @@ export default {
       tasks: [],
     }
   },
+  methods: {
+    deleteTask(id) {
+      if(confirm('Are You Sure')){
+ this.tasks = this.tasks.filter((task) => task.id !== id)
+      }
+     
+      
+    },
+    },
   created() {
     this.tasks = [
       {
@@ -37,22 +46,23 @@ export default {
         id: 3,
         text: 'learn C++',
         day: 'March 16  9pm ',
-        reminder: true,
+        reminder: false,
       },
     ]
-  },
+ },
+ 
 }
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap");
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 .container {
   max-width: 500px;
